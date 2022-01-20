@@ -54,9 +54,12 @@ modifiedWeblogDf = weblogDf \
             concat(col("year"), lit("-"), col("month"), lit("-"), col("day")),
             'action', 'some_count1', 'some_count2', 'url',
             'device').withColumnRenamed("concat(year, -, month, -, day)", "hit_date")
+
 # Make into report formats
 PurchaseByDayDf = modifiedTransactionsDf.groupby(
     'dateInYYYY-MM-DD').count().orderBy('dateInYYYY-MM-DD')
+modifiedReportWeblogDf = modifiedWeblogDf.groupby('hit_date').count()
 
+modifiedReportWeblogDf.show()
 PurchaseByDayDf.show()
-modifiedWeblogDf.show(10, False)
+
